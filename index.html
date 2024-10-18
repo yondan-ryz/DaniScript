@@ -1,110 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dani Compiler</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-        #container {
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
-        }
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: block;
-            margin: 0 auto;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #output {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            margin-top: 10px;
-        }
-        #jsCode {
-            margin-top: 20px;
-            white-space: pre-wrap;
-        }
-        .error {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Compiler with Dark Mode</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Set dark mode by default
+    document.documentElement.classList.add('dark');
+  </script>
 </head>
-<body>
-    <div id="container">
-        <h1 style="text-align: center;">Dani Compiler</h1>
-        <textarea id="daniCode" rows="10" placeholder="Masukkan kode Dani di sini..." style="margin-bottom: 10px;"></textarea>
-        <button onclick="compileAndRun()">Compile & Run</button>
-        <div id="output"></div>
-        <!--<div id="jsCode"></div>-->
+<body class="bg-gray-900 min-h-screen flex items-center justify-center transition-colors duration-300">
+
+  <!-- Main Card Container -->
+  <div class="w-full max-w-4xl bg-gray-800 p-8 lg:p-12 rounded-lg shadow-lg transition-colors duration-300">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl lg:text-4xl font-bold text-center text-gray-100">JavaScript Compiler</h1>
+    </div>
+    
+    <!-- Container for Input and Output -->
+    <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
+      
+      <!-- Textarea for Code Input -->
+      <textarea id="code" class="w-full lg:w-1/2 h-48 lg:h-64 p-4 lg:p-6 bg-gray-700 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm lg:text-base" placeholder="Tulis kode JavaScript di sini..."></textarea>
+
+      <!-- Output Area -->
+      <div id="output" class="w-full lg:w-1/2 p-4 lg:p-6 bg-gray-700 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 font-mono text-sm lg:text-base text-gray-100 whitespace-pre-wrap max-h-64 lg:max-h-80 overflow-auto"></div>
+
     </div>
 
-    <script>
-        function translateToJavaScript(daniCode) {
-            daniCode = daniCode.replace(/cetak\(/g, 'console.log(');
-            daniCode = daniCode.replace(/\bjika\b/g, 'if');
-            daniCode = daniCode.replace(/\bselainitu\b/g, 'else');
-            daniCode = daniCode.replace(/\buntuk\b/g, 'for');
-            daniCode = daniCode.replace(/\bfungsi\b/g, 'function');
-			daniCode = daniCode.replace(/\bperbesarhuruf\b/g, 'toUpperCase');
-			daniCode = daniCode.replace(/\bperkecilhuruf\b/g, 'toLowerCase');
-            return daniCode;
-        }
+    <!-- Run Code Button -->
+    <button onclick="compileJS()" class="w-full mt-4 lg:mt-6 bg-blue-500 text-white py-2 lg:py-3 text-base lg:text-lg rounded-lg hover:bg-blue-600 dark:bg-blue-400 dark:hover:bg-blue-500 transition-all">
+      Run Code
+    </button>
 
-        function executeDaniCode(daniCode) {
-            var javaScriptCode = translateToJavaScript(daniCode);
-            var output = '';
+    <!-- Input Area for User Prompt (Hidden by default) -->
+    <div id="inputArea" class="mt-4 flex items-center space-x-4" style="display: none;">
+      <label for="inputField" class="text-gray-100 font-medium lg:text-lg">Input:</label>
+      <input type="text" id="inputField" class="flex-1 px-4 py-2 lg:px-6 lg:py-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 font-mono text-sm lg:text-base">
+      <button onclick="submitInput()" class="bg-green-500 text-white dark:bg-green-400 py-2 lg:py-3 px-4 lg:px-6 rounded-lg hover:bg-green-600 transition-all lg:text-base">
+        Submit Input
+      </button>
+    </div>
+  </div>
 
-            try {
-                var originalConsoleLog = console.log;
-                console.log = function(value) {
-                    output += value + '<br>';
-                };
-                eval(javaScriptCode);
-                console.log = originalConsoleLog;
-                document.getElementById('output').innerHTML = "<strong>Output:</strong><br>" + output;
-                //document.getElementById('jsCode').innerHTML = "<strong>JavaScript:</strong><br>" + javaScriptCode;
-            } catch (error) {
-                console.error("Error executing Dani code:", error);
-                output = "<span class='error'>Error executing Dani code: " + error + "</span>";
-                document.getElementById('output').innerHTML = output;
-                //document.getElementById('jsCode').innerHTML = "<strong>JavaScript:</strong><br>" + javaScriptCode;
-            }
-        }
+  <script>
+    let inputCallback = null; // Menyimpan fungsi yang akan menangani input
 
-        function compileAndRun() {
-            var daniCode = document.getElementById('daniCode').value;
-            executeDaniCode(daniCode);
+    function compileJS() {
+      const code = document.getElementById('code').value;
+      const outputDiv = document.getElementById('output');
+      outputDiv.textContent = ''; // Kosongkan output sebelum menampilkan hasil baru
+
+      // Custom console log
+      const customConsole = {
+        log: function(message) {
+          outputDiv.textContent += message + '\n';
         }
-    </script>
+      };
+
+      // Custom input yang mirip dengan Scanner di Java
+      const customInput = function(callback) {
+        inputCallback = callback;
+        document.getElementById('inputArea').style.display = 'flex'; // Tampilkan area input
+      };
+
+      try {
+        // Menggunakan Function constructor agar lebih aman daripada eval()
+        const func = new Function('console', 'input', code);
+        func(customConsole, customInput); // Eksekusi kode dengan custom console dan input
+      } catch (error) {
+        outputDiv.textContent = 'Error: ' + error.message;
+      }
+    }
+
+    function submitInput() {
+      const inputField = document.getElementById('inputField');
+      const inputValue = inputField.value;
+      inputField.value = ''; // Kosongkan field input setelah dikirim
+
+      // Jalankan callback dengan nilai input
+      if (inputCallback) {
+        inputCallback(inputValue);
+      }
+
+      // Sembunyikan area input setelah submit
+      document.getElementById('inputArea').style.display = 'none';
+    }
+  </script>
+
 </body>
 </html>
