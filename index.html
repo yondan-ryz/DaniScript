@@ -22,10 +22,10 @@
     <div class="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-6">
       
       <!-- Textarea for Code Input -->
-      <textarea id="code" class="w-full lg:w-1/2 h-48 lg:h-64 p-4 lg:p-6 bg-gray-700 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm lg:text-base" placeholder="Tulis kode JavaScript di sini..."></textarea>
+      <textarea id="code" class="w-full lg:w-1/2 h-48 lg:h-64 p-4 lg:p-6 bg-gray-700 text-gray-100 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm lg:text-base" placeholder="Tulis kode JavaScript di sini..."></textarea>
 
       <!-- Output Area -->
-      <div id="output" class="w-full lg:w-1/2 p-4 lg:p-6 bg-gray-700 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 font-mono text-sm lg:text-base text-gray-100 whitespace-pre-wrap max-h-64 lg:max-h-80 overflow-auto"></div>
+      <div id="output" class="w-full lg:w-1/2 p-4 lg:p-6 bg-gray-700 text-gray-100 dark:bg-gray-700 dark:text-gray-100 rounded-lg border border-gray-600 font-mono text-sm lg:text-base whitespace-pre-wrap max-h-64 lg:max-h-80 overflow-auto"></div>
 
     </div>
 
@@ -37,7 +37,7 @@
     <!-- Input Area for User Prompt (Hidden by default) -->
     <div id="inputArea" class="mt-4 flex items-center space-x-4" style="display: none;">
       <label for="inputField" class="text-gray-100 font-medium lg:text-lg">Input:</label>
-      <input type="text" id="inputField" class="flex-1 px-4 py-2 lg:px-6 lg:py-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-gray-100 font-mono text-sm lg:text-base">
+      <input type="text" id="inputField" class="flex-1 px-4 py-2 lg:px-6 lg:py-3 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 text-gray-100 dark:bg-gray-700 dark:text-gray-100 font-mono text-sm lg:text-base">
       <button onclick="submitInput()" class="bg-green-500 text-white dark:bg-green-400 py-2 lg:py-3 px-4 lg:px-6 rounded-lg hover:bg-green-600 transition-all lg:text-base">
         Submit Input
       </button>
